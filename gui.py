@@ -12,7 +12,7 @@ from __future__ import division
 
 import pyqtgraph as pg
 from pyqtgraph.Qt import QtGui
-
+from PyQt6 import QtWidgets
 
 #update = None
 
@@ -33,14 +33,14 @@ _windows = []
 
 
 def screen_size():
-    return _app.desktop().screenGeometry()
+    return _app.primaryScreen().availableGeometry()
     
     
 
 def init_app():
     global _app
     print('gui | Initializing QApplication')
-    _app = QtGui.QApplication([])
+    _app = QtWidgets.QApplication([])
 
     
     

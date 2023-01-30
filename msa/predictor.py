@@ -10,7 +10,9 @@ Loads a model and runs predictions on it based on JSON metadata
 from __future__ import print_function
 from __future__ import division
 
-import tensorflow as tf
+#import tensorflow as tf # breaks on use of tensorflow Session
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 import numpy as np
 import json
 import os
@@ -36,16 +38,15 @@ def get_info_from_dict(model_info, key):
 class Predictor:
     def __init__(self, json_path):
         self.json_path = json_path
-        
         with open(json_path) as f:    
             model_info = json.load(f)
-        
+
             
         # TODO add checks
         self.name = model_info['name'] # name of the model (for GUI)
         
         self.ckpt_path = model_info['ckpt_path'] # path to saved model (meta + checkpoints). Loads latest if points to a folder, otherwise loads specific checkpoint
-        
+
         # if path points to a folder, use latest checkpoint
         if (os.path.exists(self.ckpt_path) and os.path.isdir(self.ckpt_path)):
             self.ckpt_path = tf.train.latest_checkpoint(self.ckpt_path)        
